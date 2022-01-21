@@ -1,7 +1,7 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { View, Animated, Text, StyleSheet } from 'react-native';
-import globalStyles from '../../styles/globalStyles';
+import globalStyles from '../../../styles/globalStyles';
 const {parentContainer} = globalStyles
 
 const LandingScreen = () => {
@@ -22,7 +22,7 @@ const LandingScreen = () => {
 
     return (
         <Animated.View style={[parentContainer, {opacity: opacityVal}]}>
-            <Text style={styles.jumboText}>Hello World</Text>
+            
         </Animated.View>
     )
 }

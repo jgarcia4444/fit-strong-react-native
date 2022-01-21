@@ -14,6 +14,11 @@ const globalStyles = StyleSheet.create ({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    fullWidthContainer: {
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
 })
 
 export default globalStyles
