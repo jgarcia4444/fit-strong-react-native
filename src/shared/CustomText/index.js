@@ -7,18 +7,18 @@ const {fullWidthContainer, } = globalStyles;
 import Colors from '../../../config/Colors';
 const {black, } = Colors
 
-const CustomText = ({content, size='sm', bold=false, color=black}) => {
+const CustomText = ({content, size='sm', bold=false, color=black, containerStyle={}}) => {
 
     const configuredTextSize = () => {
         switch(size) {
             case 'sm':
-                return 12;
+                return 14;
             case 'md':
-                return 20;
+                return 22;
             case 'lg':
-                return 28;
+                return 30;
             default: 
-                return 12;
+                return 14;
         };
     }
 
@@ -31,7 +31,7 @@ const CustomText = ({content, size='sm', bold=false, color=black}) => {
     }
 
     return (
-        <View style={fullWidthContainer}>
+        <View style={[fullWidthContainer, containerStyle]}>
             <Text style={[styles.defaultTextStyle, configuredStyle()]}>{content}</Text>
         </View>
     )
@@ -40,7 +40,6 @@ const CustomText = ({content, size='sm', bold=false, color=black}) => {
 const styles = StyleSheet.create({
     defaultTextStyle: {
         fontSize: 12,
-        fontFamily: 'sans-serif'
     }
 })
 

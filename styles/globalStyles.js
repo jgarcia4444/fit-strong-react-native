@@ -11,8 +11,8 @@ const globalStyles = StyleSheet.create ({
         backgroundColor: white,
         width: width,
         height: height,
-        alignItems: 'center',
-        justifyContent: 'center',
+        // alignItems: 'center',
+        // justifyContent: 'center',
     },
     fullWidthContainer: {
         width: '100%',

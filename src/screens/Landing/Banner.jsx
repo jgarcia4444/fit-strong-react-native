@@ -8,6 +8,8 @@ const {fullWidthContainer} = globalStyles;
 import Colors from '../../../config/Colors';
 const {black, gold} = Colors
 
+import CustomText from '../../shared/CustomText';
+
 const Banner = () => {
 
     const deviceShadow = () => {
@@ -34,6 +36,7 @@ const Banner = () => {
             <View style={[styles.iconContainer, deviceShadow()]}>
                 <MaterialCommunityIcons name="weight-lifter" size={54} color="black" /> 
             </View>
+            <CustomText content={"FitStrong"} bold={true} size={'lg'} containerStyle={styles.titleRow} />
         </View>
     )
 }
@@ -54,6 +57,9 @@ const styles = StyleSheet.create({
         borderWidth: 4,
         borderColor: black,
         borderRadius: width * 0.15
+    },
+    titleRow: {
+        marginTop: height * 0.02
     }
 })
 
