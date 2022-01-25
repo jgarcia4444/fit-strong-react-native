@@ -1,14 +1,18 @@
 import React, {useState, useRef, useEffect} from 'react';
-import { View, TextInput, StyleSheet, TouchableHighlight, Animated, } from 'react-native';
+import { View, TextInput, StyleSheet, TouchableHighlight, Animated, Dimensions } from 'react-native';
 
 import globalStyles from '../../../styles/globalStyles';
 const {fullWidthContainer} = globalStyles;
 
 import { Feather } from '@expo/vector-icons';
 
-const CustomTextInput = ({inputType, inputValue, valueChange}) => {
+import Colors from '../../../config/Colors';
+const {lightGray, black} = Colors;
+
+const CustomTextInput = ({inputType, inputValue, valueChange, placeholder}) => {
 
     const [inputIconName, setInputIconName] = useState('');
+
 
     const configureInputIcon = () => {
         if (inputType === 'userInfo') {
@@ -27,14 +31,12 @@ const CustomTextInput = ({inputType, inputValue, valueChange}) => {
     })
 
     return (
-        <View style={fullWidthContainer}>
-            <TouchableHighlight>
+        // <TouchableHighlight>
+            <View style={[fullWidthContainer, styles.inputRow]}>
                 <Feather name={inputIconName} size={24} color="black" />
-            </TouchableHighlight>
-            <TouchableHighlight>
-                <TextInput style={styles.inputStyle} value={inputValue} onChangeText={valueChange} />
-            </TouchableHighlight>
-        </View>
+                <TextInput placeholder={placeholder} style={styles.inputStyle} value={inputValue} onChangeText={valueChange} />
+            </View>
+        // </TouchableHighlight>
     )
 
 }
@@ -42,9 +44,19 @@ const CustomTextInput = ({inputType, inputValue, valueChange}) => {
 const {width, height} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
+    inputRow: {
+        marginVertical: height * 0.01,
+        width: '100%',
+        backgroundColor: lightGray,
+        flexDirection: 'row',
+        paddingVertical: height * 0.02,
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        paddingHorizontal: width * 0.03,
+    },
     inputStyle: {
         width: '100%',
-        paddingHorizontal: width * 0.01
+        paddingHorizontal: width * 0.03,
     }
 })
 

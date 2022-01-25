@@ -47,7 +47,8 @@ const styles = StyleSheet.create({
     bannerContainer: {
         width: '100%',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop: height * 0.05
     },
     iconContainer: {
         width: width * 0.3,
