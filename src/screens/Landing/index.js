@@ -14,6 +14,7 @@ const LandingScreen = () => {
 
     const opacityVal = useRef(new Animated.Value(0)).current;
     const marginVal = useRef(new Animated.Value(200)).current;
+    const [loggingIn, setLoggingIn] = useState(true);
 
     const fadeViewIn = () => {
         Animated.timing(opacityVal, {
@@ -35,6 +36,14 @@ const LandingScreen = () => {
         fadeViewIn();
         moveViewUp();
     })
+
+    const renderForm = () => {
+        if (loggingIn === true) {
+            return <LoginForm />
+        } else {
+            return <SignUpForm />
+        }
+    }
 
     return (
         <Animated.View style={[parentContainer, {opacity: opacityVal}]}>
