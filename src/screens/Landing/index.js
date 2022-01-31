@@ -6,6 +6,7 @@ const {parentContainer} = globalStyles
 
 import Banner from './Banner';
 import LoginForm from './LoginForm';
+import SignUpForm from './SignUpForm';
 
 import Colors from '../../../config/Colors';
 const {hyperBlue} = Colors;
@@ -49,14 +50,14 @@ const LandingScreen = () => {
         <Animated.View style={[parentContainer, {opacity: opacityVal}]}>
             <Animated.View style={[styles.risingView, {marginTop: marginVal}]}>
                 <Banner />
-                <LoginForm />
-                <View style={styles.signUpRow}>
+                {renderForm()}
+                <View style={styles.changeRow}>
                     <View>
-                        <Text style={styles.signUpQuestion}>Not a member yet?</Text>
+                        <Text style={styles.signUpQuestion}>{loggingIn === true ? 'Not a member yet?' : 'Already a member?'}</Text>
                     </View>
                     <View style={styles.signUpTextContainer}>
-                        <TouchableOpacity>
-                            <Text style={styles.signUpText}>Sign Up</Text>
+                        <TouchableOpacity onPress={() => setLoggingIn(!loggingIn)}>
+                            <Text style={styles.signUpText}>{loggingIn === true ? 'Sign Up' : 'Login' }</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
     signUpQuestion: {
         fontWeight: '100',
     },
-    signUpRow: {
+    changeRow: {
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
