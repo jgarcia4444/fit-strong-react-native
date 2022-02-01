@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
         marginTop: height * 0.01,
     },
     loginContainer: {
-        marginTop: height * 0.075,
+        marginTop: height * 0.05,
         width: '90%',
         alignItems: 'center',
         justifyContent: 'center',

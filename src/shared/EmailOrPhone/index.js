@@ -17,14 +17,13 @@ const EmailOrPhone = ({inputValue, valueChange}) => {
         if (inputValue.length < 3) {
             return inputValue;
         } else {
-
+            var isPhoneNumber = false;
+            
         }
     }
 
     return (
-        <View style={[fullWidthContainer]}>
-            <CustomTextInput inputType={dynamicInputType} placeholder={'Email or Phone'} inputValue={formattedValue()} valueChange={valueChange} />
-        </View>
+        <CustomTextInput inputType={dynamicInputType} placeholder={'Email or Phone'} inputValue={formattedValue()} valueChange={valueChange} />
     )
 }
 
