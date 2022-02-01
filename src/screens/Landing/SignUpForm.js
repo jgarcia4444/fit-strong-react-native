@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import AuthButton from '../../shared/AuthButton';
 import EmailOrPhone from '../../shared/EmailOrPhone';
@@ -12,6 +12,12 @@ const {fullWidthContainer} = globalStyles;
 
 const SignUpForm = () => {
 
+    const [emailPhone, setEmailPhone] = useState('');
+
+    const handleEmailPhoneChange = (newText) => {
+
+    }
+
     return (
         <View style={[fullWidthContainer, styles.signUpContainer]}>
             <CustomText 
@@ -21,7 +27,7 @@ const SignUpForm = () => {
                 containerStyle={{alignItems: 'flex-start'}}
             />
             <ScrollView>
-                <EmailOrPhone />
+                <EmailOrPhone inputValue={emailPhone} valueChange={handleEmailPhoneChange} />
             </ScrollView>
             <AuthButton loggingIn={false}/>
         </View>

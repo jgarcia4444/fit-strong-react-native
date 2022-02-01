@@ -13,6 +13,7 @@ const CustomTextInput = ({inputType, inputValue, valueChange, placeholder}) => {
 
     const [inputIconName, setInputIconName] = useState('');
 
+    const iconOpacity = useRef(new Animated.Value(0)).current
 
     const configureInputIcon = () => {
         if (inputType === 'userInfo') {
@@ -24,16 +25,34 @@ const CustomTextInput = ({inputType, inputValue, valueChange, placeholder}) => {
         } else if (inputType === 'phone') {
             setInputIconName('phone');
         }
+        fadeIn()
+    }
+
+    const fadeIn = () => {
+        Animated.sequence([
+            Animated.timing(iconOpacity, {
+                toValue: 0,
+                useNativeDriver: true,
+                duration: 0
+            }),
+            Animated.timing(iconOpacity, {
+                toValue: 1,
+                duration: 500,
+                useNativeDriver: true
+            })
+        ]).start()
     }
 
     useEffect(() => {
         configureInputIcon();
-    })
+    },[inputType])
 
     return (
         // <TouchableHighlight>
             <View style={[fullWidthContainer, styles.inputRow]}>
-                <Feather name={inputIconName} size={24} color="black" />
+                <Animated.View style={{opacity: iconOpacity}}>
+                    <Feather name={inputIconName} size={24} color="black" />
+                </Animated.View>
                 <TextInput placeholder={placeholder} style={styles.inputStyle} value={inputValue} onChangeText={valueChange} />
             </View>
         // </TouchableHighlight>
