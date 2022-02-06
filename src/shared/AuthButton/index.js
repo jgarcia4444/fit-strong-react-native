@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 
 import Colors from '../../../config/Colors';
@@ -8,8 +8,6 @@ import globalStyles from '../../../styles/globalStyles';
 const {fullWidthContainer} = globalStyles;
 
 const AuthButton = ({loggingIn}) => {
-
-    console.log("TESTTTT!!!")
 
     return (
         <TouchableOpacity style={[fullWidthContainer, styles.authButton]}>
