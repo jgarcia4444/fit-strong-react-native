@@ -28,10 +28,55 @@ const SignUpForm = () => {
         changeLastName: (newText) => setLastName(newText)
     }
 
-    const passRequirements = [{identifier: 'length', message: 'Minimum of 8 characters long'}, {identifier: 'capital', message: 'Must have one capital letter'}, {identifier: 'lowecase', message: 'Must have a lowecase letter'}, {identifier: 'number', message: 'Must have a number'}];
+    const passRequirements = [{identifier: 'length', message: 'Minimum of 8 characters long'}, {identifier: 'capital', message: 'Must have one capital letter'}, {identifier: 'lowercase', message: 'Must have a lowercase letter'}, {identifier: 'number', message: 'Must have a number'}];
 
     const renderPassRequirements = () => {
         return passRequirements.map(requirement => <PassRequirement requirementInfo={requirement} requirementsMet={requirementsMet} />)
+    }
+
+    const handlePassChange = (newText) => {
+        if (hasCapital(newText)) {
+            setRequirementsMet([...requirementsMet, 'capital']);
+        }
+        if (hasLowercase(newText)) {
+            setRequirementsMet([...requirementsMet, 'lowercase']);
+        }
+        if (newText.length < 7) {
+            setRequirementsMet([...requirementsMet, 'length']);
+        }
+        if (passHasNumber(newText)) {
+            setRequirementsMet([...requirementsMet, 'number'])
+        }
+        setPassword(newText);
+    }
+
+    const hasCapital = (passText) => {
+        passText.split('').forEach(char => {
+            let capitalChar = char.toUpperCase();
+            if (char === capitalChar) {
+                return true;
+            }
+        })
+        return false;
+    }
+
+    const hasLowercase = (passText) => {
+        passText.split('').forEach(char => {
+            let lowercaseChar = char.toLowerCase();
+            if (char === lowercaseChar) {
+                return true;
+            }
+        })
+        return false;
+    }
+
+    const passHasNumber = (passText) => {
+        passText.split('').forEach(char => {
+            if (!isNaN(parseInt(char))) {
+                return true;
+            }
+        })
+        return false;
     }
 
     return (
@@ -44,7 +89,7 @@ const SignUpForm = () => {
             />
             <ScrollView style={{width: '100%'}}>
                 <EmailOrPhone inputValue={emailPhone} valueChange={newText => setEmailPhone(newText)} />
-                <CustomTextInput inputType={'password'} placeholder={'Password'} inputValue={password} valueChange={newText => setPassword(newText)} />
+                <CustomTextInput inputType={'password'} placeholder={'Password'} inputValue={password} valueChange={handlePassChange} />
                 <View style={[fullWidthContainer, styles.passRequirementsContainer ]}>
                     {renderPassRequirements()}
                 </View>
