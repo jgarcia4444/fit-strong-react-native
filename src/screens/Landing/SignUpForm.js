@@ -31,51 +31,62 @@ const SignUpForm = () => {
     const passRequirements = [{identifier: 'length', message: 'Minimum of 8 characters long'}, {identifier: 'capital', message: 'Must have one capital letter'}, {identifier: 'lowercase', message: 'Must have a lowercase letter'}, {identifier: 'number', message: 'Must have a number'}];
 
     const renderPassRequirements = () => {
-        return passRequirements.map(requirement => <PassRequirement requirementInfo={requirement} requirementsMet={requirementsMet} />)
+        return passRequirements.map((requirement, index) => <PassRequirement key={`${requirement.identifier}-${index}`} requirementInfo={requirement} requirementsMet={requirementsMet} />)
     }
 
     const handlePassChange = (newText) => {
-        if (hasCapital(newText)) {
-            setRequirementsMet([...requirementsMet, 'capital']);
+        console.log("Here are the requirements met", requirementsMet);
+        var newRequirements = []
+        if (hasCapital(newText) === true) {
+            if (!requirementsMet.includes('capital')) {
+                newRequirements = [...newRequirements, 'capital']
+            }
         }
-        if (hasLowercase(newText)) {
-            setRequirementsMet([...requirementsMet, 'lowercase']);
+        if (hasLowercase(newText) === true) {
+            if (!requirementsMet.includes('lowercase')) {
+                newRequirements = [...newRequirements, 'lowercase'];
+            }
         }
-        if (newText.length < 7) {
-            setRequirementsMet([...requirementsMet, 'length']);
+        if (newText.length > 7) {
+            if (!requirementsMet.includes('length')) {
+                newRequirements = [...newRequirements, 'length'];
+            }
         }
-        if (passHasNumber(newText)) {
-            setRequirementsMet([...requirementsMet, 'number'])
+        if (passHasNumber(newText) === true) {
+            if (!requirementsMet.includes('number')) {
+                newRequirements = [...newRequirements, 'number'];
+            }
         }
+        setRequirementsMet(newRequirements);
         setPassword(newText);
     }
 
     const hasCapital = (passText) => {
-        passText.split('').forEach(char => {
+        for (let char of passText) {
             let capitalChar = char.toUpperCase();
             if (char === capitalChar) {
                 return true;
             }
-        })
+        }
         return false;
     }
 
     const hasLowercase = (passText) => {
-        passText.split('').forEach(char => {
+        for (let char of passText) {
             let lowercaseChar = char.toLowerCase();
             if (char === lowercaseChar) {
                 return true;
             }
-        })
+        }
         return false;
     }
 
     const passHasNumber = (passText) => {
-        passText.split('').forEach(char => {
+        for (let char of passText) {
             if (!isNaN(parseInt(char))) {
                 return true;
             }
-        })
+        }
         return false;
     }
 
