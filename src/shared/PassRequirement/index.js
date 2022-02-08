@@ -12,14 +12,19 @@ const PassRequirement = ({requirementsMet, requirementInfo}) => {
     const {message, identifier} = requirementInfo;
 
     const requirementMet = () => {
-        return requirementsMet.some(requirement => requirement === identifier)
+        for (let requirementMet of requirementsMet) {
+            if (requirementMet === identifier) {
+                return true;
+            }
+        }
+        return false;
     }
 
     return (
         <View style={[fullWidthContainer, styles.passRequirementRow]}>
             <View style={styles.checkBoxContainer}>
                 <View style={styles.checkbox}>
-                    {requirementMet === true && 
+                    {requirementMet() === true && 
                         <Feather name="check" size={16} color="black" />
                     }
                 </View>
