@@ -19,7 +19,17 @@ const SignUpForm = () => {
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [requirementsMet, setRequirementsMet] = useState([]);
+    const [requirementsMet, setRequirementsMet] = useState({
+        capital: false,
+        lowercase: false,
+        number: false,
+        length: false
+    });
+    const [hasCapital, setHasCapital] = useState(false);
+    const [hasLower, setHasLower] = useState(false);
+    const [hasNum, setHasNum] = useState(false);
+    const [hasLength, setHasLength] = useState(false);
+    
 
     const firstAndLastOptions = {
         firstName: firstName,
@@ -31,63 +41,72 @@ const SignUpForm = () => {
     const passRequirements = [{identifier: 'length', message: 'Minimum of 8 characters long'}, {identifier: 'capital', message: 'Must have one capital letter'}, {identifier: 'lowercase', message: 'Must have a lowercase letter'}, {identifier: 'number', message: 'Must have a number'}];
 
     const renderPassRequirements = () => {
+        const requirementsMet = {
+            capital: hasCapital,
+            lowercase: hasLower,
+            number: hasNum,
+            length: hasLength
+        }
         return passRequirements.map((requirement, index) => <PassRequirement key={`${requirement.identifier}-${index}`} requirementInfo={requirement} requirementsMet={requirementsMet} />)
     }
 
     const handlePassChange = (newText) => {
-        console.log("Here are the requirements met", requirementsMet);
-        var newRequirements = []
-        if (hasCapital(newText) === true) {
-            if (!requirementsMet.includes('capital')) {
-                newRequirements = [...newRequirements, 'capital']
-            }
-        }
-        if (hasLowercase(newText) === true) {
-            if (!requirementsMet.includes('lowercase')) {
-                newRequirements = [...newRequirements, 'lowercase'];
-            }
-        }
-        if (newText.length > 7) {
-            if (!requirementsMet.includes('length')) {
-                newRequirements = [...newRequirements, 'length'];
-            }
-        }
-        if (passHasNumber(newText) === true) {
-            if (!requirementsMet.includes('number')) {
-                newRequirements = [...newRequirements, 'number'];
-            }
-        }
-        setRequirementsMet(newRequirements);
+        passHasCapital(newText);
+        passHasLowercase(newText);
+        passHasNumber(newText);
+        checkLength(newText);
         setPassword(newText);
     }
 
-    const hasCapital = (passText) => {
+    const checkLength = (passText) => {
+        if (passText.length > 7) {
+            setHasLength(true)
+        } else {
+            setHasLength(false)
+        }
+    }
+
+    const passHasCapital = (passText) => {
+        var removeItem = true;
         for (let char of passText) {
             let capitalChar = char.toUpperCase();
             if (char === capitalChar) {
-                return true;
+                removeItem = false;
+                setHasCapital(true);
             }
         }
-        return false;
+        if (removeItem === true) {
+            setHasCapital(false)
+        }
     }
 
-    const hasLowercase = (passText) => {
+
+
+    const passHasLowercase = (passText) => {
+        var removeItem = true;
         for (let char of passText) {
             let lowercaseChar = char.toLowerCase();
             if (char === lowercaseChar) {
-                return true;
+                removeItem = false;
+                setHasLower(true);
             }
         }
-        return false;
+        if (removeItem === true) {
+            setHasLower(false);
+        }
     }
 
     const passHasNumber = (passText) => {
+        var removeItem = true;
         for (let char of passText) {
             if (!isNaN(parseInt(char))) {
-                return true;
+                removeItem = false
+                setHasNum(true);
             }
         }
-        return false;
+        if (removeItem === true) {
+            setHasNum(false)
+        }
     }
 
     return (

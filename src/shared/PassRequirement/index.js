@@ -12,12 +12,7 @@ const PassRequirement = ({requirementsMet, requirementInfo}) => {
     const {message, identifier} = requirementInfo;
 
     const requirementMet = () => {
-        for (let requirementMet of requirementsMet) {
-            if (requirementMet === identifier) {
-                return true;
-            }
-        }
-        return false;
+        return requirementsMet[identifier];
     }
 
     return (
