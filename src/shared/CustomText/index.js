@@ -7,7 +7,7 @@ const {fullWidthContainer, } = globalStyles;
 import Colors from '../../../config/Colors';
 const {black, } = Colors
 
-const CustomText = ({textAlign, content, size='sm', bold=false, color=black, containerStyle={}}) => {
+const CustomText = ({content, size='sm', bold=false, color=black, containerStyle={}}) => {
 
     const configuredTextSize = () => {
         switch(size) {

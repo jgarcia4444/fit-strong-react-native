@@ -19,12 +19,6 @@ const SignUpForm = () => {
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [requirementsMet, setRequirementsMet] = useState({
-        capital: false,
-        lowercase: false,
-        number: false,
-        length: false
-    });
     const [hasCapital, setHasCapital] = useState(false);
     const [hasLower, setHasLower] = useState(false);
     const [hasNum, setHasNum] = useState(false);
@@ -117,7 +111,7 @@ const SignUpForm = () => {
                 bold={true}
                 containerStyle={{alignItems: 'flex-start'}}
             />
-            <ScrollView style={{width: '100%'}}>
+            <ScrollView contentContainerStyle={styles.scrollViewContentContainer} style={{width: '100%'}}>
                 <EmailOrPhone inputValue={emailPhone} valueChange={newText => setEmailPhone(newText)} />
                 <CustomTextInput inputType={'password'} placeholder={'Password'} inputValue={password} valueChange={handlePassChange} />
                 <View style={[fullWidthContainer, styles.passRequirementsContainer ]}>
@@ -133,6 +127,9 @@ const SignUpForm = () => {
 const {height, width} = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
+    scrollViewContentContainer: {
+        paddingBottom: height * 0.02,
+    },
     signUpContainer: {
         height: height * 0.55,
         marginTop: height * 0.025,
