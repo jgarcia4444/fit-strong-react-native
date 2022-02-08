@@ -23,7 +23,7 @@ const SignUpForm = () => {
     const [hasLower, setHasLower] = useState(false);
     const [hasNum, setHasNum] = useState(false);
     const [hasLength, setHasLength] = useState(false);
-    
+    const [isPhoneNumber, setIsPhoneNumber] = useState(false);
 
     const firstAndLastOptions = {
         firstName: firstName,
@@ -103,6 +103,31 @@ const SignUpForm = () => {
         }
     }
 
+    const handleEmailPhone = (emailPhoneText) => {
+        if (emailPhoneText.length < 3) {
+            setEmailPhone(emailPhoneText);
+        } else {
+            if (checkForPhoneNumber(emailPhoneText)) {
+                setIsPhoneNumber(true)
+            } else {
+                setIsPhoneNumber(false)
+            }
+            setEmailPhone(emailPhoneText)
+        }
+    }
+
+    const checkForPhoneNumber = (possibleNum) => {
+        var phoneNumber = true;
+        for (let char of possibleNum) {
+            if (isNaN(parseInt(char))) {
+                phoneNumber = false;
+            }
+        }
+        return phoneNumber
+    }
+
+
+
     return (
         <View style={[fullWidthContainer, styles.signUpContainer]}>
             <CustomText 
@@ -112,7 +137,7 @@ const SignUpForm = () => {
                 containerStyle={{alignItems: 'flex-start'}}
             />
             <ScrollView contentContainerStyle={styles.scrollViewContentContainer} style={{width: '100%'}}>
-                <EmailOrPhone inputValue={emailPhone} valueChange={newText => setEmailPhone(newText)} />
+                <EmailOrPhone isPhoneNumber={isPhoneNumber} inputValue={emailPhone} valueChange={handleEmailPhone} />
                 <CustomTextInput inputType={'password'} placeholder={'Password'} inputValue={password} valueChange={handlePassChange} />
                 <View style={[fullWidthContainer, styles.passRequirementsContainer ]}>
                     {renderPassRequirements()}

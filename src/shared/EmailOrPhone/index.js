@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 
 import CustomTextInput from '../CustomTextInput';
@@ -9,21 +9,24 @@ const {white, black} = Colors;
 import globalStyles from '../../../styles/globalStyles';
 const {fullWidthContainer} = globalStyles;
 
-const EmailOrPhone = ({inputValue, valueChange}) => {
+const EmailOrPhone = ({inputValue, valueChange, isPhoneNumber}) => {
 
     const [dynamicInputType, setDynamicInputType] = useState('userInfo');
 
-    const formattedValue = () => {
-        if (inputValue.length < 3) {
-            return inputValue;
-        } else {
-            var isPhoneNumber = false;
-            
+    useEffect(() => {
+        if (inputValue.length > 2) {
+            console.log(dynamicInputType);
+            console.log(isPhoneNumber)
+            if (isPhoneNumber === true) {
+                setDynamicInputType('phone');
+            } else {
+                setDynamicInputType('mail');
+            }
         }
-    }
+    },[inputValue])
 
     return (
-        <CustomTextInput inputType={dynamicInputType} placeholder={'Email or Phone'} inputValue={formattedValue()} valueChange={valueChange} />
+        <CustomTextInput inputType={dynamicInputType} placeholder={'Email or Phone'} inputValue={inputValue} valueChange={valueChange} />
     )
 }
 
