@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 
 import Colors from '../../../config/Colors';
 const {} = Colors;
@@ -13,7 +13,7 @@ const FirstAndLastName = ({inputOptions}) => {
     const {firstName, lastName, changeFirstName, changeLastName} = inputOptions;
 
     return(
-        <View style={[fullWidthContainer, ]}>
+        <View style={[fullWidthContainer, styles.nameContainer]}>
             <View style={[fullWidthContainer,]}>
                 <CustomText 
                     content={'Name'}
@@ -21,14 +21,31 @@ const FirstAndLastName = ({inputOptions}) => {
                     containerStyle={{alignItems: 'flex-start'}}
                 />
             </View>
-            <CustomTextInput inputValue={firstName} valueChange={changeFirstName} inputType={'userInfo'} placeholder={"First"}/>
-            <CustomTextInput inputValue={lastName} valueChange={changeLastName} inputType={'userInfo'} placeholder={"Last"}/>
+            <View style={[fullWidthContainer, styles.inputRow]}>
+                <View style={styles.inputCol}>
+                    <CustomTextInput inputValue={firstName} valueChange={changeFirstName} inputType={'userInfo'} placeholder={"First"}/>
+                </View>
+                <View style={styles.inputCol}>
+                    <CustomTextInput inputValue={lastName} valueChange={changeLastName} inputType={'userInfo'} placeholder={"Last"}/>
+                </View>
+            </View>
         </View>
     )
 }
 
-const styles = StyleSheet.create({
+const {height, width} = Dimensions.get('window');
 
+const styles = StyleSheet.create({
+    inputCol: {
+        width: '49%',
+    },
+    inputRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    nameContainer: {
+        marginTop: height * 0.02,
+    }
 });
 
 export default FirstAndLastName;

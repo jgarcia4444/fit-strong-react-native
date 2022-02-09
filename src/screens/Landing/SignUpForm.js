@@ -4,6 +4,7 @@ import AuthButton from '../../shared/AuthButton';
 import EmailOrPhone from '../../shared/EmailOrPhone';
 import FirstAndLastName from '../../shared/FirstAndLastName';
 import PassRequirement from '../../shared/PassRequirement';
+import HeightInput from '../../shared/HeightInput';
 
 import Colors from '../../../config/Colors';
 const {black} = Colors;
@@ -24,6 +25,7 @@ const SignUpForm = () => {
     const [hasNum, setHasNum] = useState(false);
     const [hasLength, setHasLength] = useState(false);
     const [isPhoneNumber, setIsPhoneNumber] = useState(false);
+    const [age, setAge] = useState('');
 
     const firstAndLastOptions = {
         firstName: firstName,
@@ -126,6 +128,12 @@ const SignUpForm = () => {
         return phoneNumber
     }
 
+    const handleAgeChange = (newText) => {
+        if (!isNaN(parseInt(newText))) {
+            setHasLength(newText);
+        }
+    }
+
 
 
     return (
@@ -143,6 +151,8 @@ const SignUpForm = () => {
                     {renderPassRequirements()}
                 </View>
                 <FirstAndLastName inputOptions={firstAndLastOptions} />
+                <CustomTextInput inputValue={age} inputType={'userInfo'} placeholder={'Age'} valueChange={handleAgeChange}/>
+                <HeightInput />
             </ScrollView>
             <AuthButton loggingIn={false}/>
         </View>

@@ -15,13 +15,13 @@ const EmailOrPhone = ({inputValue, valueChange, isPhoneNumber}) => {
 
     useEffect(() => {
         if (inputValue.length > 2) {
-            console.log(dynamicInputType);
-            console.log(isPhoneNumber)
             if (isPhoneNumber === true) {
                 setDynamicInputType('phone');
             } else {
-                setDynamicInputType('mail');
+                setDynamicInputType('email');
             }
+        } else {
+            setDynamicInputType('userInfo');
         }
     },[inputValue])
 
