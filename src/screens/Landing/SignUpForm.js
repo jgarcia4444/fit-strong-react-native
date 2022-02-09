@@ -26,6 +26,9 @@ const SignUpForm = () => {
     const [hasLength, setHasLength] = useState(false);
     const [isPhoneNumber, setIsPhoneNumber] = useState(false);
     const [age, setAge] = useState('');
+    const [inches, setInches] = useState('');
+    const [feet, setFeet] = useState('');
+    const [centimeters, setCentimeters] = useState('');
 
     const firstAndLastOptions = {
         firstName: firstName,
@@ -130,7 +133,7 @@ const SignUpForm = () => {
 
     const handleAgeChange = (newText) => {
         if (!isNaN(parseInt(newText))) {
-            setHasLength(newText);
+            setAge(newText);
         }
     }
 
@@ -152,7 +155,7 @@ const SignUpForm = () => {
                 </View>
                 <FirstAndLastName inputOptions={firstAndLastOptions} />
                 <CustomTextInput inputValue={age} inputType={'userInfo'} placeholder={'Age'} valueChange={handleAgeChange}/>
-                <HeightInput />
+                <HeightInput measurementSystem={'imperial'} centimeters={centimeters} setCentimeters={(newText) => setCentimeters(newText)} setInches={(newText) => setInches(newText)} inches={inches} feet={feet} setFeet={(newText) => setFeet(newText)} />
             </ScrollView>
             <AuthButton loggingIn={false}/>
         </View>
