@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
@@ -15,12 +15,30 @@ const PassRequirement = ({requirementsMet, requirementInfo}) => {
         return requirementsMet[identifier];
     }
 
+    const checkOpacity = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        if (requirementMet() === true) {
+            fadeCheckIn();
+        }
+    });
+
+    const fadeCheckIn = () => {
+        Animated.timing(checkOpacity, {
+            toValue: 1,
+            duration: 400,
+            useNativeDriver: true
+        }).start()
+    }
+
     return (
         <View style={[fullWidthContainer, styles.passRequirementRow]}>
             <View style={styles.checkBoxContainer}>
                 <View style={styles.checkbox}>
                     {requirementMet() === true && 
+                    <Animated.View style={{opacity: checkOpacity}}>
                         <Feather name="check" size={16} color="black" />
+                    </Animated.View>
                     }
                 </View>
             </View>

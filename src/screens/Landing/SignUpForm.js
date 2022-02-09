@@ -64,7 +64,7 @@ const SignUpForm = () => {
         var removeItem = true;
         for (let char of passText) {
             let capitalChar = char.toUpperCase();
-            if (char === capitalChar) {
+            if (char === capitalChar && isNaN(parseInt(char))) {
                 removeItem = false;
                 setHasCapital(true);
             }
