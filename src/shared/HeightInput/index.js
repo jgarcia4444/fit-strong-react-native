@@ -1,5 +1,5 @@
 import React, {useState, } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, TouchableHighlight } from 'react-native';
 
 import Colors from '../../../config/Colors';
 const {black} = Colors;
@@ -36,7 +36,12 @@ const HeightInput = ({measurementSystem="imperial", setFeet, setInches, setCenti
     }
 
     const renderMeasurementSelection = () => {
-
+        return(
+            <View style={[fullWidthContainer, styles.measurementSelectionRow]}>
+                <TouchableHighlight><Text style={styles.mesurementText}>Metric</Text></TouchableHighlight>
+                <TouchableHighlight><Text style={styles.mesurementText}>Imperial</Text></TouchableHighlight>
+            </View>
+        )
     }
 
     return (
@@ -70,6 +75,13 @@ const styles = StyleSheet.create({
     },
     measurementSelectionContainer: {
         width: '25%'
+    },
+    measurementSelectionRow: {
+        flexDirection: 'row',
+        width: '100%'
+    },
+    mesurementText: {
+        fontSize: 10,
     },
     textInputContainer: {
         width: '70%'
