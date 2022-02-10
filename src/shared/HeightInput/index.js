@@ -1,5 +1,5 @@
 import React, {useState, } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableHighlight } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 
 import Colors from '../../../config/Colors';
 const {black} = Colors;
@@ -8,7 +8,7 @@ import globalStyles from '../../../styles/globalStyles';
 import CustomTextInput from '../CustomTextInput';
 const {fullWidthContainer} = globalStyles;
 
-const HeightInput = ({measurementSystem="imperial", setFeet, setInches, setCentimeters, feet, inches, centimeters}) => {
+const HeightInput = ({setMeasurementSystem, measurementSystem="imperial", setFeet, setInches, setCentimeters, feet, inches, centimeters}) => {
 
     const renderByMeasurementType = () => {
         return measurementSystem === 'imperial' ? imperialInput() : metricInput()
@@ -35,11 +35,20 @@ const HeightInput = ({measurementSystem="imperial", setFeet, setInches, setCenti
         )
     }
 
+    const handleSetMeasurementSystem = () => {
+        measurementSystem === 'imperial' ? setMeasurementSystem('metric') : setMeasurementSystem('imperial')
+    }
+
     const renderMeasurementSelection = () => {
         return(
             <View style={[fullWidthContainer, styles.measurementSelectionRow]}>
-                <TouchableHighlight><Text style={styles.mesurementText}>Metric</Text></TouchableHighlight>
-                <TouchableHighlight><Text style={styles.mesurementText}>Imperial</Text></TouchableHighlight>
+                <TouchableOpacity onPress={handleSetMeasurementSystem} style={styles.measurementSelectionButton}>
+                    { measurementSystem === 'metric'?
+                        <Text style={styles.mesurementText}>Metric</Text>
+                    :
+                        <Text style={styles.mesurementText}>Imperial</Text>
+                    }
+                </TouchableOpacity>
             </View>
         )
     }
@@ -73,15 +82,23 @@ const styles = StyleSheet.create({
     inchesContainer: {
         width: '49%'
     },
+    measurementSelectionButton: {
+        width: width * 0.15,
+        paddingVertical: height * 0.025,
+        borderWidth: 2,
+        borderColor: black,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     measurementSelectionContainer: {
         width: '25%'
     },
     measurementSelectionRow: {
-        flexDirection: 'row',
         width: '100%'
     },
     mesurementText: {
         fontSize: 10,
+        fontWeight: 'bold'
     },
     textInputContainer: {
         width: '70%'

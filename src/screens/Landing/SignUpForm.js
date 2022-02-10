@@ -29,6 +29,7 @@ const SignUpForm = () => {
     const [inches, setInches] = useState('');
     const [feet, setFeet] = useState('');
     const [centimeters, setCentimeters] = useState('');
+    const [measurementSystem, setMeasurementSystem] = useState('imperial')
 
     const firstAndLastOptions = {
         firstName: firstName,
@@ -155,7 +156,7 @@ const SignUpForm = () => {
                 </View>
                 <FirstAndLastName inputOptions={firstAndLastOptions} />
                 <CustomTextInput inputValue={age} inputType={'userInfo'} placeholder={'Age'} valueChange={handleAgeChange}/>
-                <HeightInput measurementSystem={'imperial'} centimeters={centimeters} setCentimeters={(newText) => setCentimeters(newText)} setInches={(newText) => setInches(newText)} inches={inches} feet={feet} setFeet={(newText) => setFeet(newText)} />
+                <HeightInput setMeasurementSystem={setMeasurementSystem} measurementSystem={measurementSystem} centimeters={centimeters} setCentimeters={(newText) => setCentimeters(newText)} setInches={(newText) => setInches(newText)} inches={inches} feet={feet} setFeet={(newText) => setFeet(newText)} />
             </ScrollView>
             <AuthButton loggingIn={false}/>
         </View>
