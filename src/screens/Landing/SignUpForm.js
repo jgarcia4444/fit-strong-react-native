@@ -168,15 +168,31 @@ const SignUpForm = () => {
         }
     }
 
+    const convertPoundsToKG = () => {
+        if (weight !== '') {
+            let kg = Math.floor(parseInt(weight) * 2.20462);
+            setWeight(kg.toString())
+        }
+    }
+
+    const convertKGToPounds = () => {
+        if (weight !== '') {
+            let pounds = Math.floor(parseInt(weight) * 0.453592);
+            setWeight(pounds.toString());
+        }
+    }
+
      
 
     const handleMeasurmentSystemChange = (system) => {
         if (system === 'metric') {
             convertToCentimeters();
+            convertPoundsToKG();
         } else {
             convertToInches();
+            convertKGToPounds();
         }
-        setMeasurementSystem(system)
+        setMeasurementSystem(system);
     }
 
 
@@ -195,7 +211,7 @@ const SignUpForm = () => {
                     {renderPassRequirements()}
                 </View>
                 <FirstAndLastName inputOptions={firstAndLastOptions} />
-                <CustomText  
+                <CustomText   
                     content={'Metrics'}
                     size={'md'}
                     containerStyle={{alignItems: 'flex-start'}}
