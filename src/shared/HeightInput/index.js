@@ -21,7 +21,7 @@ const HeightInput = ({setMeasurementSystem, measurementSystem="imperial", setFee
                     <CustomTextInput placeholder={'Feet'} inputType={'userInfo'} inputValue={feet} valueChange={setFeet} />
                 </View>
                 <View style={styles.inchesContainer}>
-                    <CustomTextInput placeholder={'Inches'} inputType={'userInfo'} inputValue={inches} vavlueChange={setInches} />
+                    <CustomTextInput placeholder={'Inches'} inputType={'userInfo'} inputValue={inches} valueChange={setInches} />
                 </View>
             </View>
         )

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import AuthButton from '../../shared/AuthButton';
 import EmailOrPhone from '../../shared/EmailOrPhone';
@@ -29,7 +29,8 @@ const SignUpForm = () => {
     const [inches, setInches] = useState('');
     const [feet, setFeet] = useState('');
     const [centimeters, setCentimeters] = useState('');
-    const [measurementSystem, setMeasurementSystem] = useState('imperial')
+    const [measurementSystem, setMeasurementSystem] = useState('imperial');
+    const [weight, setWeight] = useState('');
 
     const firstAndLastOptions = {
         firstName: firstName,
@@ -138,6 +139,45 @@ const SignUpForm = () => {
         }
     }
 
+    const convertToCentimeters = () => {
+        if (feet !== '' && inches !== '') {
+            let inchesInAFoot = 12;
+            let heightInInches = (inchesInAFoot * parseInt(feet)) + parseInt(inches);
+            let centimeterMultiplier = 2.54;
+            let heightInCentimeters = heightInInches * centimeterMultiplier;
+            let centimetersRounded = heightInCentimeters.toFixed(2);
+            setCentimeters(centimetersRounded.toString());
+        } else if (feet === '' && inches !== '') {
+            let calculatedCentimeters = parseInt(inches) * 2.54
+            let centimetersRounded = calculatedCentimeters.toFixed(2);
+            setCentimeters(centimetersRounded.toString())
+        } else if (feet !== '' && inches === '') {
+            let feetToCentimeters = (parseInt(feet) * 12) * 2.54;
+            let centimetersRounded = feetToCentimeters.toFixed(2);
+            setCentimeters(centimetersRounded.toString())
+        }
+    }
+
+    const convertToInches = () => {
+        if (centimeters !== '') {
+            let heightInInches = (parseInt(centimeters) * 0.393701).toFixed();
+            let calculatedFeet = Math.floor(heightInInches / 12);
+            let calculatedInches = heightInInches % 12;
+            setFeet(calculatedFeet.toString());
+            setInches(calculatedInches.toString());
+        }
+    }
+
+     
+
+    const handleMeasurmentSystemChange = (system) => {
+        if (system === 'metric') {
+            convertToCentimeters();
+        } else {
+            convertToInches();
+        }
+        setMeasurementSystem(system)
+    }
 
 
     return (
@@ -155,8 +195,14 @@ const SignUpForm = () => {
                     {renderPassRequirements()}
                 </View>
                 <FirstAndLastName inputOptions={firstAndLastOptions} />
+                <CustomText  
+                    content={'Metrics'}
+                    size={'md'}
+                    containerStyle={{alignItems: 'flex-start'}}
+                />
                 <CustomTextInput inputValue={age} inputType={'userInfo'} placeholder={'Age'} valueChange={handleAgeChange}/>
-                <HeightInput setMeasurementSystem={setMeasurementSystem} measurementSystem={measurementSystem} centimeters={centimeters} setCentimeters={(newText) => setCentimeters(newText)} setInches={(newText) => setInches(newText)} inches={inches} feet={feet} setFeet={(newText) => setFeet(newText)} />
+                <HeightInput setMeasurementSystem={handleMeasurmentSystemChange} measurementSystem={measurementSystem} centimeters={centimeters} setCentimeters={(newText) => setCentimeters(newText)} setInches={(newText) => setInches(newText)} inches={inches} feet={feet} setFeet={(newText) => setFeet(newText)} />
+                <CustomTextInput placeholder={'Weight'} inputType={'userInfo'} inputValue={weight} valueChange={setWeight} />
             </ScrollView>
             <AuthButton loggingIn={false}/>
         </View>
