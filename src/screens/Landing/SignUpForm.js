@@ -170,14 +170,14 @@ const SignUpForm = () => {
 
     const convertPoundsToKG = () => {
         if (weight !== '') {
-            let kg = Math.floor(parseInt(weight) * 2.20462);
+            let kg = Math.floor(parseInt(weight) / 2.20462);
             setWeight(kg.toString())
         }
     }
 
     const convertKGToPounds = () => {
         if (weight !== '') {
-            let pounds = Math.floor(parseInt(weight) * 0.453592);
+            let pounds = Math.floor(parseInt(weight) / 0.453592);
             setWeight(pounds.toString());
         }
     }
