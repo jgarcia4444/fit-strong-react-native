@@ -8,7 +8,7 @@ import rootReducer from './reducers';
 
 const persistConfig = {
     key: 'root',
-    AsyncStorage
+    storage: AsyncStorage
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -17,8 +17,8 @@ let store = createStore(persistedReducer, applyMiddleware(thunk));
 let persistor = persistStore(store);
 
 export default {
-    store, 
-    persistor
+    store: store, 
+    persistor: persistor
 }
 
 

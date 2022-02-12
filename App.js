@@ -5,8 +5,8 @@ import MainStack from './routes/MainStack';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 
-import { store, persistor } from './redux';
-
+import storePersistor from './redux/index';
+const {store, persistor} = storePersistor;
 
 export default function App() {
   return (
