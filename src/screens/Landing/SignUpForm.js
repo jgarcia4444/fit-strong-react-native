@@ -181,6 +181,7 @@ const SignUpForm = () => {
             setWeight(pounds.toString());
         }
     }
+    
 
      
 
