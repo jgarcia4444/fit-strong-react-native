@@ -15,13 +15,35 @@ const createUser = (newUserInfo) => {
             },
             body: JSON.stringify(configuredUserInfo)
         }
-        fetch()
+        fetch(configuredUrl, options)
+            .then(res => res.json())
+            .then(data => {
+                let { errorHash } = data;
+                let { hasError } = errorHash;
+                if (hasError === true) {
+                    let {message} = errorHash;
+                    return dispatch({type: 'SIGN_UP_ERROR', message})
+                } else {
+                    let {userInfo} = data;
+                    return dispatch({type: 'SIGN_UP_SUCCESS', userInfo})
+                }
+            })
 
     }
 }
 
 const configureUserInfo = (userInfo) => {
-    const {} = userInfo;
+    const {firstName, lastName, password, email, phoneNumber, age, weight, height} = userInfo;
+    return {
+        f_name: firstName,
+        l_name: lastName,
+        password: password,
+        email: email,
+        phone_number: phoneNumber,
+        age: age,
+        weight: weight,
+        height: height,
+    }
 }
 
 export default createUser;
