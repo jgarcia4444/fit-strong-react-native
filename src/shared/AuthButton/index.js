@@ -7,10 +7,10 @@ const {lightGray, white, black} = Colors;
 import globalStyles from '../../../styles/globalStyles';
 const {fullWidthContainer} = globalStyles;
 
-const AuthButton = ({loggingIn}) => {
+const AuthButton = ({loggingIn, handlePress}) => {
 
     return (
-        <TouchableOpacity style={[fullWidthContainer, styles.authButton]}>
+        <TouchableOpacity onPress={handlePress} style={[fullWidthContainer, styles.authButton]}>
             <Text style={styles.textStyle}>{loggingIn === true ? 'Login' : 'Signup'}</Text>
         </TouchableOpacity>
     )

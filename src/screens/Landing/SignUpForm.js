@@ -14,7 +14,10 @@ import CustomText from '../../shared/CustomText';
 import CustomTextInput from '../../shared/CustomTextInput';
 const {fullWidthContainer} = globalStyles;
 
-const SignUpForm = () => {
+import { connect } from 'react-redux'
+import createUser from '../../../redux/actions/session/CreateUser';
+
+const SignUpForm = ({session, createUser}) => {
 
     const [emailPhone, setEmailPhone] = useState('');
     const [password, setPassword] = useState('');
@@ -31,6 +34,8 @@ const SignUpForm = () => {
     const [centimeters, setCentimeters] = useState('');
     const [measurementSystem, setMeasurementSystem] = useState('imperial');
     const [weight, setWeight] = useState('');
+
+    const {userInfo, sessionInfoLoading} = session;
 
     const firstAndLastOptions = {
         firstName: firstName,
@@ -146,25 +151,34 @@ const SignUpForm = () => {
             let centimeterMultiplier = 2.54;
             let heightInCentimeters = heightInInches * centimeterMultiplier;
             let centimetersRounded = heightInCentimeters.toFixed(2);
-            setCentimeters(centimetersRounded.toString());
+            return centimetersRounded;
+            // setCentimeters(centimetersRounded.toString());
         } else if (feet === '' && inches !== '') {
             let calculatedCentimeters = parseInt(inches) * 2.54
             let centimetersRounded = calculatedCentimeters.toFixed(2);
-            setCentimeters(centimetersRounded.toString())
+            return centimetersRounded;
+            // setCentimeters(centimetersRounded.toString())
         } else if (feet !== '' && inches === '') {
             let feetToCentimeters = (parseInt(feet) * 12) * 2.54;
             let centimetersRounded = feetToCentimeters.toFixed(2);
-            setCentimeters(centimetersRounded.toString())
-        }
+            return centimetersRounded;
+            // setCentimeters(centimetersRounded.toString())
+        } 
     }
 
-    const convertToInches = () => {
+    const convertToImperial = () => {
         if (centimeters !== '') {
             let heightInInches = (parseInt(centimeters) * 0.393701).toFixed();
             let calculatedFeet = Math.floor(heightInInches / 12);
             let calculatedInches = heightInInches % 12;
-            setFeet(calculatedFeet.toString());
-            setInches(calculatedInches.toString());
+            return {
+                feet: calculatedFeet,
+                inches: calculatedInches
+            }
+            // setFeet(calculatedFeet.toString());
+            // setInches(calculatedInches.toString());
+        } else {
+            return {}
         }
     }
 
@@ -178,7 +192,8 @@ const SignUpForm = () => {
     const convertKGToPounds = () => {
         if (weight !== '') {
             let pounds = Math.floor(parseInt(weight) / 0.453592);
-            setWeight(pounds.toString());
+            return pounds;
+            // setWeight(pounds.toString());
         }
     }
     
@@ -187,13 +202,30 @@ const SignUpForm = () => {
 
     const handleMeasurmentSystemChange = (system) => {
         if (system === 'metric') {
-            convertToCentimeters();
-            convertPoundsToKG();
+            let convertedCentimeters = convertToCentimeters();
+            if (convertedCentimeters !== undefined) {
+                setCentimeters(convertedCentimeters.toString());
+            }
+            let convertedKgs = convertPoundsToKG();
+            if (convertedKgs !== undefined) {
+                setWeight(convertedKgs.toString());
+            }
         } else {
-            convertToInches();
-            convertKGToPounds();
+            let convertedToImperial = convertToImperial();
+            if (Object.keys(convertedToImperial).length > 0) {
+                setFeet(convertedToImperial.feet.toString())
+                setInches(convertedToImperial.inches.toString())
+            }
+            let convertedPounds = convertKGToPounds();
+            if (convertedPounds !== undefined) {
+                setWeight(convertedPounds);
+            }
         }
         setMeasurementSystem(system);
+    }
+
+    const handleSignUpPress = (userInfo) => {
+
     }
 
 
@@ -221,7 +253,7 @@ const SignUpForm = () => {
                 <HeightInput setMeasurementSystem={handleMeasurmentSystemChange} measurementSystem={measurementSystem} centimeters={centimeters} setCentimeters={(newText) => setCentimeters(newText)} setInches={(newText) => setInches(newText)} inches={inches} feet={feet} setFeet={(newText) => setFeet(newText)} />
                 <CustomTextInput placeholder={'Weight'} inputType={'userInfo'} inputValue={weight} valueChange={setWeight} />
             </ScrollView>
-            <AuthButton loggingIn={false}/>
+            <AuthButton handlePress={handleSignUpPress} loggingIn={false}/>
         </View>
     )
 }
@@ -240,6 +272,21 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignSelf: 'center',
     }
-})
+});
 
-export default SignUpForm;
+const mapStateToProps = state => {
+    return {
+        session: state.session
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        createUser: (userInfo) => dispatch(createUser(userInfo)),
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SignUpForm);
