@@ -224,8 +224,19 @@ const SignUpForm = ({session, createUser}) => {
         setMeasurementSystem(system);
     }
 
-    const handleSignUpPress = (userInfo) => {
+    const handleSignUpPress = () => {
+        let newUserInfo = {};
+        let errors = []
+        if (firstName !== '') {
+            newUserInfo["firstName"] = firstName;
+        } else {
+            errors.push({label: "firstName", message: "Cannot be empty."})
+        }
+        if (measurementSystem === 'imperial') {
 
+        } else {
+
+        }
     }
 
 
