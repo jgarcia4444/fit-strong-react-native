@@ -34,6 +34,7 @@ const SignUpForm = ({session, createUser}) => {
     const [centimeters, setCentimeters] = useState('');
     const [measurementSystem, setMeasurementSystem] = useState('imperial');
     const [weight, setWeight] = useState('');
+    const [formErrors, setFormErrors] = useState([]);
 
     const {userInfo, sessionInfoLoading} = session;
 
@@ -222,6 +223,15 @@ const SignUpForm = ({session, createUser}) => {
             }
         }
         setMeasurementSystem(system);
+    }
+
+    const validateForm = () => {
+        let validationFunctions = [validateFirstName, validateLastName, validatePassword, validateEmail, validatePhoneNumber, validateAge, validateHeight, validateWeight];
+        validationFunctions.forEach(validationFunction => validationFunction())
+    }
+
+    const validateFirstName = () => {
+        
     }
 
     const handleSignUpPress = () => {
