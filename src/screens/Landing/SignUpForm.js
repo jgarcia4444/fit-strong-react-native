@@ -226,12 +226,61 @@ const SignUpForm = ({session, createUser}) => {
     }
 
     const validateForm = () => {
-        let validationFunctions = [validateFirstName, validateLastName, validatePassword, validateEmail, validatePhoneNumber, validateAge, validateHeight, validateWeight];
+        let contactInputValidation = isPhoneNumber === true ? validatePhoneNumber : validateEmail
+        let validationFunctions = [validateFirstName, validateLastName, validatePassword, contactInputValidation, validateAge, validateHeight, validateWeight];
         validationFunctions.forEach(validationFunction => validationFunction())
     }
 
     const validateFirstName = () => {
-        
+        if (firstName === '') {
+            let error = {identifier: "firstName", message: 'Cannot be left blank'};
+            setFormErrors([...formErrors, error]);
+        }
+    }
+
+    const validateLastName = () => {
+        if (lastName === '') {
+            let error = {identifier: "lastName", message: 'Cannot be left blank'};
+            setFormErrors([...formErrors, error]);
+        }
+    }
+
+    const validatePassword = () => {
+        let requirementBooleans = [
+            {message: 'Must have a capital letter', value: hasCapital},
+            {message: 'Must have a lowercase letter', value: hasLower},
+            {message: 'Must be 8 characters in length', value: hasLength},
+            {message: 'Must have a number', value: hasNum}
+        ]
+        requirementBooleans.forEach(requirement => {
+            if (requirement.value === false) {
+                let error = {identifier: 'password', message: requirement.message};
+                setFormErrors([...formErrors, error]);
+                break;
+            }
+        })
+    }
+
+    const validateEmail = () => {
+        if (emailPhone === '') {
+            let error = {identifier: 'emailPhone', message: 'Can not be left blank'};
+            setFormErrors([...formErrors, error]);
+        } else {
+            let emailPhoneSplit = emailPhone.split('');
+        }
+    }
+
+    const validatePhoneNumber = () => {
+
+    }
+    const validateAge = () => {
+
+    }
+    const validateWeight = () => {
+
+    }
+    const validateHeight = () => {
+
     }
 
     const handleSignUpPress = () => {
