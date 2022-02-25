@@ -266,7 +266,59 @@ const SignUpForm = ({session, createUser}) => {
             let error = {identifier: 'emailPhone', message: 'Can not be left blank'};
             setFormErrors([...formErrors, error]);
         } else {
-            let emailPhoneSplit = emailPhone.split('');
+            checkEmailForAt();
+        }
+    }
+
+    const checkEmailForAt = () => {
+        let splitAtAt = emailPhone.split('@');
+        if (splitAtAt[0] === emailPhone) {
+            let error = {identifier: 'emailPhone', message: 'An "@" must be present to be a valid email.'};
+            setFormErrors([...formErrors, error])
+        } else {
+            if (splitAtAt.length < 2) {
+                let error = {identifier: 'emailPhone', message: 'There must be characters on each side of the "@".'};
+                setFormErrors([...formErrors, error]);
+            } else if (splitAtAt.length > 2) {
+                let error = {identifier: 'emailPhone', message: 'There can only be one "@" in an email.'};
+                setFormErrors([...formErrors, error]);
+            } else {
+                checkEmailForPeriod(splitAtAt)
+            }
+        }
+    }
+
+    const checkEmailForPeriod = (emailSplitAtAt) => {
+        let leftOfAt = emailSplitAtAt[0];
+        let rightOfAt = emailSplitAtAt[1];
+        if (leftOfAt.length < 1) {
+            let error = {identifier: 'emailPhone', message: 'There must be characters present on the left side of the "@"'};
+            setFormErrors([...formErrors, error]);
+        } 
+        if (rightOfAt.length < 1) {
+            let error = {identifier: 'emailPhone', message: 'There must be characters present on the right side of the "@"'};
+            setFormErrors([...formErrors, error]);
+        }
+        let rightSplitByPeriod = rightofAt.split('.');
+        if (rightSplitByPeriod === rightofAt) {
+            let error = {identifier: 'emailPhone', message: "There must be a period present in an email."};
+            setFormErrors([...formErrors, error]);
+        } else {
+            if (rightSplitByPeriod.length !== 2) {
+                let error = {identifier: 'emailPhone', message: 'There must be characters on both sides of the period.'};
+                setFormErrors([...formErrors, error]);
+            } else {
+                let leftOfPeriod = rightSplitByPeriod[0];
+                let rightOfPeriod = rightSplitByPeriod[1];
+                if (leftOfPeriod.length < 1) {
+                    let error = {identifier: 'emailPhone', message: 'There must be characters in betweeen the period and the "@".'};
+                    setFormErrors([...formErrors, error]);
+                }
+                if (rightOfPeriod.length < 1) {
+                    let error = {identifier: 'emailPhone', message: 'There must be characters to the right of the period.'};
+                    setFormErrors([...formErrors, error]);
+                }
+            }
         }
     }
 
