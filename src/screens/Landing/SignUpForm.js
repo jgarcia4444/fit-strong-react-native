@@ -153,17 +153,14 @@ const SignUpForm = ({session, createUser}) => {
             let heightInCentimeters = heightInInches * centimeterMultiplier;
             let centimetersRounded = heightInCentimeters.toFixed(2);
             return centimetersRounded;
-            // setCentimeters(centimetersRounded.toString());
         } else if (feet === '' && inches !== '') {
             let calculatedCentimeters = parseInt(inches) * 2.54
             let centimetersRounded = calculatedCentimeters.toFixed(2);
             return centimetersRounded;
-            // setCentimeters(centimetersRounded.toString())
         } else if (feet !== '' && inches === '') {
             let feetToCentimeters = (parseInt(feet) * 12) * 2.54;
             let centimetersRounded = feetToCentimeters.toFixed(2);
             return centimetersRounded;
-            // setCentimeters(centimetersRounded.toString())
         } 
     }
 
@@ -176,17 +173,18 @@ const SignUpForm = ({session, createUser}) => {
                 feet: calculatedFeet,
                 inches: calculatedInches
             }
-            // setFeet(calculatedFeet.toString());
-            // setInches(calculatedInches.toString());
         } else {
-            return {}
+            return {
+                feet: '',
+                inches: ''
+            }
         }
     }
 
     const convertPoundsToKG = () => {
         if (weight !== '') {
             let kg = Math.floor(parseInt(weight) / 2.20462);
-            setWeight(kg.toString())
+            return kg;
         }
     }
 
@@ -194,7 +192,6 @@ const SignUpForm = ({session, createUser}) => {
         if (weight !== '') {
             let pounds = Math.floor(parseInt(weight) / 0.453592);
             return pounds;
-            // setWeight(pounds.toString());
         }
     }
     
@@ -341,10 +338,49 @@ const SignUpForm = ({session, createUser}) => {
         }
     }
     const validateWeight = () => {
-        
+        if (weight === '') {
+            let error = {identifier: 'weight', message: 'Weight cannot be left empty.'};
+            setFormErrors([...formErrors, error]);
+        }
+        let weightParsed = parseInt(weight);
+        if (isNaN(weightParsed)) {
+            let error = {identifier: 'weight', message: 'Weigh must be a number.'};
+            setFormErrors([...formErrors, error]);
+        }
     }
-    const validateHeight = () => {
 
+    const validateHeight = () => {
+        if (measurementSystem === 'metric') {
+            if (centimeters === '') {
+                let error = {identifier: 'centimeters', message: 'The height cannot be left blank.'};
+                setFormErrors([...formErrors, error]);
+            } else {
+                let parsed = parseInt(centimeters);
+                if (isNaN(parsed)) {
+                    let error = {identifier: 'centimeters', message: 'Height must be a number'};
+                    setFormErrors([...formErrors, error]);
+                }
+            }
+        } else {
+            if (feet === '') {
+                let error = {identifier: 'feet', message: 'Feet cannot be left empty.'};
+                setFormErrors([...formErrors, error]);
+            }
+            if (inches === '') {
+                let error = {identifier: 'inches', message: 'Inches cannot be left empty.'};
+                setFormErrors([...formErrors, error]);
+            }
+            let feetParsed = parseInt(feet);
+            if (isNaN(feetParsed)) {
+                let error = {identifier: 'feet', message: 'Feet must be a number.'};
+                setFormErrors([...formErrors, error])
+            }
+            let inchesParsed = parseInt(inches);
+            if (isNaN(inchesParsed)) {
+                let error = {identifier: 'inches', message: 'Inches must be a number.'};
+                setFormErrors([...formErrors, error])
+            }
+        }
     }
 
     const handleSignUpPress = () => {
