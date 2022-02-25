@@ -299,8 +299,8 @@ const SignUpForm = ({session, createUser}) => {
             let error = {identifier: 'emailPhone', message: 'There must be characters present on the right side of the "@"'};
             setFormErrors([...formErrors, error]);
         }
-        let rightSplitByPeriod = rightofAt.split('.');
-        if (rightSplitByPeriod === rightofAt) {
+        let rightSplitByPeriod = rightOfAt.split('.');
+        if (rightSplitByPeriod === rightOfAt) {
             let error = {identifier: 'emailPhone', message: "There must be a period present in an email."};
             setFormErrors([...formErrors, error]);
         } else {
@@ -323,13 +323,25 @@ const SignUpForm = ({session, createUser}) => {
     }
 
     const validatePhoneNumber = () => {
-
+        let phoneNumberSplit = emailPhone.split('');
+        if (phoneNumberSplit.length !== 10) {
+            let error = {identifier: 'emailPhone', message: 'A valid phone number is ten digits long.'};
+            setFormErrors([...formErrors, error]);
+        }
     }
     const validateAge = () => {
-
+        let parsed = parseInt(age);
+        if (isNaN(parsed)) {
+            let error = {identifier: 'age', message: 'Age must be a number.'};
+            setFormErrors([...formErrors, error]);
+        }
+        if (parsed < 14) {
+            let error = {identifier: 'age', message: 'Must 14 years or older to use this app.'};
+            setFormErrors([...formErrors, error]);
+        }
     }
     const validateWeight = () => {
-
+        
     }
     const validateHeight = () => {
 
