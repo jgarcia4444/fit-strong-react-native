@@ -9,7 +9,7 @@ const {white, black} = Colors;
 import globalStyles from '../../../styles/globalStyles';
 const {fullWidthContainer} = globalStyles;
 
-const EmailOrPhone = ({inputValue, valueChange, isPhoneNumber}) => {
+const EmailOrPhone = ({inputValue, valueChange, isPhoneNumber, error}) => {
 
     const [dynamicInputType, setDynamicInputType] = useState('userInfo');
 
@@ -26,7 +26,7 @@ const EmailOrPhone = ({inputValue, valueChange, isPhoneNumber}) => {
     },[inputValue])
 
     return (
-        <CustomTextInput inputType={dynamicInputType} placeholder={'Email or Phone'} inputValue={inputValue} valueChange={valueChange} />
+        <CustomTextInput inputType={dynamicInputType} placeholder={'Email or Phone'} inputValue={inputValue} valueChange={valueChange} error={error} />
     )
 }
 

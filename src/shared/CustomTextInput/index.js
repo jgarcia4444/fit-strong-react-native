@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react';
-import { View, TextInput, StyleSheet, TouchableHighlight, Animated, Dimensions } from 'react-native';
+import { View, TextInput, StyleSheet, Text, Animated, Dimensions } from 'react-native';
 
 import globalStyles from '../../../styles/globalStyles';
 const {fullWidthContainer} = globalStyles;
@@ -7,9 +7,11 @@ const {fullWidthContainer} = globalStyles;
 import { Feather } from '@expo/vector-icons';
 
 import Colors from '../../../config/Colors';
-const {lightGray, black} = Colors;
+const {lightGray, black, red} = Colors;
 
-const CustomTextInput = ({inputType, inputValue, valueChange, placeholder}) => {
+import FormError from '../FormError';
+
+const CustomTextInput = ({inputType, inputValue, valueChange, placeholder, error}) => {
 
     const [inputIconName, setInputIconName] = useState('');
 
@@ -49,12 +51,15 @@ const CustomTextInput = ({inputType, inputValue, valueChange, placeholder}) => {
 
     return (
         // <TouchableHighlight>
+        <View style={[fullWidthContainer]}>
+            <FormError error={error} />
             <View style={[fullWidthContainer, styles.inputRow]}>
                 <Animated.View style={{opacity: iconOpacity}}>
                     <Feather name={inputIconName} size={24} color="black" />
                 </Animated.View>
                 <TextInput placeholder={placeholder} style={styles.inputStyle} value={inputValue} onChangeText={valueChange} />
             </View>
+        </View>
         // </TouchableHighlight>
     )
 
@@ -64,7 +69,7 @@ const {width, height} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     inputRow: {
-        marginVertical: height * 0.01,
+        marginBottom: height * 0.01,
         width: '100%',
         backgroundColor: lightGray,
         flexDirection: 'row',

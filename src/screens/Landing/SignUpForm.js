@@ -34,15 +34,28 @@ const SignUpForm = ({session, createUser}) => {
     const [centimeters, setCentimeters] = useState('');
     const [measurementSystem, setMeasurementSystem] = useState('imperial');
     const [weight, setWeight] = useState('');
-    const [formErrors, setFormErrors] = useState([]);
+    const formErrors = [];
+    const [formErrorsToDisplay, setFormErrorsToDisplay] = useState({
+        emailPhone: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        age: '',
+        weight: '',
+        feet: '',
+        inches: '',
+        centimeters: ''
+    });
 
     const {userInfo, sessionInfoLoading} = session;
 
     const firstAndLastOptions = {
         firstName: firstName,
         changeFirstName: (newText) => setFirstName(newText),
+        firstNameError: formErrorsToDisplay.firstName,
         lastName: lastName,
-        changeLastName: (newText) => setLastName(newText)
+        changeLastName: (newText) => setLastName(newText),
+        lastNameError: formErrorsToDisplay.lastName
     }
 
     const passRequirements = [{identifier: 'length', message: 'Minimum of 8 characters long'}, {identifier: 'capital', message: 'Must have one capital letter'}, {identifier: 'lowercase', message: 'Must have a lowercase letter'}, {identifier: 'number', message: 'Must have a number'}];
@@ -231,14 +244,14 @@ const SignUpForm = ({session, createUser}) => {
     const validateFirstName = () => {
         if (firstName === '') {
             let error = {identifier: "firstName", message: 'Cannot be left blank'};
-            setFormErrors([...formErrors, error]);
+            formErrors.push(error);
         }
     }
 
     const validateLastName = () => {
         if (lastName === '') {
             let error = {identifier: "lastName", message: 'Cannot be left blank'};
-            setFormErrors([...formErrors, error]);
+            formErrors.push(error);
         }
     }
 
@@ -252,8 +265,7 @@ const SignUpForm = ({session, createUser}) => {
         requirementBooleans.forEach(requirement => {
             if (requirement.value === false) {
                 let error = {identifier: 'password', message: requirement.message};
-                setFormErrors([...formErrors, error]);
-                break;
+                formErrors.push(error);
             }
         })
     }
@@ -261,7 +273,7 @@ const SignUpForm = ({session, createUser}) => {
     const validateEmail = () => {
         if (emailPhone === '') {
             let error = {identifier: 'emailPhone', message: 'Can not be left blank'};
-            setFormErrors([...formErrors, error]);
+            formErrors.push(error);
         } else {
             checkEmailForAt();
         }
@@ -271,14 +283,14 @@ const SignUpForm = ({session, createUser}) => {
         let splitAtAt = emailPhone.split('@');
         if (splitAtAt[0] === emailPhone) {
             let error = {identifier: 'emailPhone', message: 'An "@" must be present to be a valid email.'};
-            setFormErrors([...formErrors, error])
+            formErrors(error)
         } else {
             if (splitAtAt.length < 2) {
                 let error = {identifier: 'emailPhone', message: 'There must be characters on each side of the "@".'};
-                setFormErrors([...formErrors, error]);
+                formErrors(error);
             } else if (splitAtAt.length > 2) {
                 let error = {identifier: 'emailPhone', message: 'There can only be one "@" in an email.'};
-                setFormErrors([...formErrors, error]);
+                formErrors(error);
             } else {
                 checkEmailForPeriod(splitAtAt)
             }
@@ -290,30 +302,30 @@ const SignUpForm = ({session, createUser}) => {
         let rightOfAt = emailSplitAtAt[1];
         if (leftOfAt.length < 1) {
             let error = {identifier: 'emailPhone', message: 'There must be characters present on the left side of the "@"'};
-            setFormErrors([...formErrors, error]);
+            formErrors.push(error);
         } 
         if (rightOfAt.length < 1) {
             let error = {identifier: 'emailPhone', message: 'There must be characters present on the right side of the "@"'};
-            setFormErrors([...formErrors, error]);
+            formErrors.push(error);
         }
         let rightSplitByPeriod = rightOfAt.split('.');
         if (rightSplitByPeriod === rightOfAt) {
             let error = {identifier: 'emailPhone', message: "There must be a period present in an email."};
-            setFormErrors([...formErrors, error]);
+            formErrors.push(error);
         } else {
             if (rightSplitByPeriod.length !== 2) {
                 let error = {identifier: 'emailPhone', message: 'There must be characters on both sides of the period.'};
-                setFormErrors([...formErrors, error]);
+                formErrors.push(error);
             } else {
                 let leftOfPeriod = rightSplitByPeriod[0];
                 let rightOfPeriod = rightSplitByPeriod[1];
                 if (leftOfPeriod.length < 1) {
                     let error = {identifier: 'emailPhone', message: 'There must be characters in betweeen the period and the "@".'};
-                    setFormErrors([...formErrors, error]);
+                    formErrors.push(error);
                 }
                 if (rightOfPeriod.length < 1) {
                     let error = {identifier: 'emailPhone', message: 'There must be characters to the right of the period.'};
-                    setFormErrors([...formErrors, error]);
+                    formErrors.push(error);
                 }
             }
         }
@@ -323,29 +335,29 @@ const SignUpForm = ({session, createUser}) => {
         let phoneNumberSplit = emailPhone.split('');
         if (phoneNumberSplit.length !== 10) {
             let error = {identifier: 'emailPhone', message: 'A valid phone number is ten digits long.'};
-            setFormErrors([...formErrors, error]);
+            formErrors.push([...formErrors, error]);
         }
     }
     const validateAge = () => {
         let parsed = parseInt(age);
         if (isNaN(parsed)) {
             let error = {identifier: 'age', message: 'Age must be a number.'};
-            setFormErrors([...formErrors, error]);
+            formErrors.push(error);
         }
         if (parsed < 14) {
             let error = {identifier: 'age', message: 'Must 14 years or older to use this app.'};
-            setFormErrors([...formErrors, error]);
+            formErrors.push(error);
         }
     }
     const validateWeight = () => {
         if (weight === '') {
             let error = {identifier: 'weight', message: 'Weight cannot be left empty.'};
-            setFormErrors([...formErrors, error]);
+            formErrors.push(error);
         }
         let weightParsed = parseInt(weight);
         if (isNaN(weightParsed)) {
             let error = {identifier: 'weight', message: 'Weigh must be a number.'};
-            setFormErrors([...formErrors, error]);
+            formErrors.push(error);
         }
     }
 
@@ -353,49 +365,70 @@ const SignUpForm = ({session, createUser}) => {
         if (measurementSystem === 'metric') {
             if (centimeters === '') {
                 let error = {identifier: 'centimeters', message: 'The height cannot be left blank.'};
-                setFormErrors([...formErrors, error]);
+                formErrors.push(error);
             } else {
                 let parsed = parseInt(centimeters);
                 if (isNaN(parsed)) {
                     let error = {identifier: 'centimeters', message: 'Height must be a number'};
-                    setFormErrors([...formErrors, error]);
+                    formErrors.push(error);
                 }
             }
         } else {
             if (feet === '') {
                 let error = {identifier: 'feet', message: 'Feet cannot be left empty.'};
-                setFormErrors([...formErrors, error]);
+                formErrors.push(error);
             }
             if (inches === '') {
                 let error = {identifier: 'inches', message: 'Inches cannot be left empty.'};
-                setFormErrors([...formErrors, error]);
+                formErrors.push(error);
             }
             let feetParsed = parseInt(feet);
             if (isNaN(feetParsed)) {
                 let error = {identifier: 'feet', message: 'Feet must be a number.'};
-                setFormErrors([...formErrors, error])
+                formErrors.push(error)
             }
             let inchesParsed = parseInt(inches);
             if (isNaN(inchesParsed)) {
                 let error = {identifier: 'inches', message: 'Inches must be a number.'};
-                setFormErrors([...formErrors, error])
+                formErrors.push(error)
             }
         }
     }
 
     const handleSignUpPress = () => {
-        let newUserInfo = {};
-        let errors = []
-        if (firstName !== '') {
-            newUserInfo["firstName"] = firstName;
+        validateForm();
+        if (formErrors.length === 0) {
+            // submit info to backend
         } else {
-            errors.push({label: "firstName", message: "Cannot be empty."})
+            displayErrors()
         }
-        if (measurementSystem === 'imperial') {
+    }
 
-        } else {
-
-        }
+    const displayErrors = () => {
+        let filteredErrors = [];
+        formErrors.forEach(error => {
+            if (filteredErrors.length === 0) {
+                filteredErrors.push(error);
+            } else {
+                var isPresent = false;
+                filteredErrors.forEach(filteredError => {
+                    if (filteredError.identifier === error.identifier) {
+                        isPresent = true;
+                    }
+                });
+                if (isPresent === false) {
+                    filteredErrors.push(error);
+                }
+            }
+        });
+        let formErrorObject = {}
+        filteredErrors.forEach(filteredError => {
+            formErrorObject[filteredError.identifier] = filteredError.message;
+        });
+        setFormErrorsToDisplay({
+            ...formErrorsToDisplay,
+            ...formErrorObject
+        });
     }
 
 
@@ -408,8 +441,8 @@ const SignUpForm = ({session, createUser}) => {
                 containerStyle={{alignItems: 'flex-start'}}
             />
             <ScrollView contentContainerStyle={styles.scrollViewContentContainer} style={{width: '100%'}}>
-                <EmailOrPhone isPhoneNumber={isPhoneNumber} inputValue={emailPhone} valueChange={handleEmailPhone} />
-                <CustomTextInput inputType={'password'} placeholder={'Password'} inputValue={password} valueChange={handlePassChange} />
+                <EmailOrPhone error={formErrorsToDisplay.emailPhone} isPhoneNumber={isPhoneNumber} inputValue={emailPhone} valueChange={handleEmailPhone} />
+                <CustomTextInput error={formErrorsToDisplay.password} inputType={'password'} placeholder={'Password'} inputValue={password} valueChange={handlePassChange} />
                 <View style={[fullWidthContainer, styles.passRequirementsContainer ]}>
                     {renderPassRequirements()}
                 </View>
@@ -419,8 +452,8 @@ const SignUpForm = ({session, createUser}) => {
                     size={'md'}
                     containerStyle={{alignItems: 'flex-start'}}
                 />
-                <CustomTextInput inputValue={age} inputType={'userInfo'} placeholder={'Age'} valueChange={handleAgeChange}/>
-                <HeightInput setMeasurementSystem={handleMeasurmentSystemChange} measurementSystem={measurementSystem} centimeters={centimeters} setCentimeters={(newText) => setCentimeters(newText)} setInches={(newText) => setInches(newText)} inches={inches} feet={feet} setFeet={(newText) => setFeet(newText)} />
+                <CustomTextInput error={formErrorsToDisplay.age} inputValue={age} inputType={'userInfo'} placeholder={'Age'} valueChange={handleAgeChange}/>
+                <HeightInput error={measurementSystem} setMeasurementSystem={handleMeasurmentSystemChange} measurementSystem={measurementSystem} centimeters={centimeters} setCentimeters={(newText) => setCentimeters(newText)} setInches={(newText) => setInches(newText)} inches={inches} feet={feet} setFeet={(newText) => setFeet(newText)} />
                 <CustomTextInput placeholder={'Weight'} inputType={'userInfo'} inputValue={weight} valueChange={setWeight} />
             </ScrollView>
             <AuthButton handlePress={handleSignUpPress} loggingIn={false}/>

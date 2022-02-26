@@ -9,11 +9,14 @@ const {fullWidthContainer} = globalStyles;
 import CustomTextInput from '../CustomTextInput';
 import CustomText from '../CustomText';
 
+import FormError from '../FormError';
+
 const FirstAndLastName = ({inputOptions}) => {
-    const {firstName, lastName, changeFirstName, changeLastName} = inputOptions;
+    const {firstName, lastName, changeFirstName, changeLastName, firstNameError, lastNameError} = inputOptions;
 
     return(
         <View style={[fullWidthContainer, styles.nameContainer]}>
+            
             <View style={[fullWidthContainer,]}>
                 <CustomText 
                     content={'Name'}
@@ -23,10 +26,10 @@ const FirstAndLastName = ({inputOptions}) => {
             </View>
             <View style={[fullWidthContainer, styles.inputRow]}>
                 <View style={styles.inputCol}>
-                    <CustomTextInput inputValue={firstName} valueChange={changeFirstName} inputType={'userInfo'} placeholder={"First"}/>
+                    <CustomTextInput error={firstNameError} inputValue={firstName} valueChange={changeFirstName} inputType={'userInfo'} placeholder={"First"}/>
                 </View>
                 <View style={styles.inputCol}>
-                    <CustomTextInput inputValue={lastName} valueChange={changeLastName} inputType={'userInfo'} placeholder={"Last"}/>
+                    <CustomTextInput error={lastNameError} inputValue={lastName} valueChange={changeLastName} inputType={'userInfo'} placeholder={"Last"}/>
                 </View>
             </View>
         </View>
