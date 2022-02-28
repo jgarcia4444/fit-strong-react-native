@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import { View, Text, StyleSheet, Dimensions, Animated } from 'react-native';
 
 import globalStyles from '../../../styles/globalStyles';
 const {fullWidthContainer} = globalStyles;
@@ -9,12 +9,28 @@ const {red} = Colors;
 
 const FormError = ({error}) => {
 
+    const opacityVal = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        if (error !== "") {
+            fadeErrorIn()
+        }
+    },[error])
+
+    const fadeErrorIn = () => {
+        Animated.timing(opacityVal, {
+            toValue: 1,
+            duration: 300,
+            useNativeDriver: true,
+        }).start();
+    }
+
     return (
-        <View style={[fullWidthContainer, styles.errorRow]}>
+        <Animated.View style={[fullWidthContainer, styles.errorRow, {opacity: opacityVal}]}>
             {error !== "" && 
                 <Text style={styles.errorText}>{error}</Text>
             }
-        </View>
+        </Animated.View>
     )
 }
 

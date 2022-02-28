@@ -465,7 +465,7 @@ const SignUpForm = ({session, createUser}) => {
                 />
                 <CustomTextInput error={formErrorsToDisplay.age} inputValue={age} inputType={'userInfo'} placeholder={'Age'} valueChange={handleAgeChange}/>
                 <HeightInput error={configureErrors()} setMeasurementSystem={handleMeasurmentSystemChange} measurementSystem={measurementSystem} centimeters={centimeters} setCentimeters={(newText) => setCentimeters(newText)} setInches={(newText) => setInches(newText)} inches={inches} feet={feet} setFeet={(newText) => setFeet(newText)} />
-                <CustomTextInput placeholder={'Weight'} inputType={'userInfo'} inputValue={weight} valueChange={setWeight} />
+                <CustomTextInput error={formErrorsToDisplay.weight} placeholder={'Weight'} inputType={'userInfo'} inputValue={weight} valueChange={setWeight} />
             </ScrollView>
             <AuthButton handlePress={handleSignUpPress} loggingIn={false}/>
         </View>
