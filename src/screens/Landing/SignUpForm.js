@@ -15,7 +15,7 @@ import CustomTextInput from '../../shared/CustomTextInput';
 const {fullWidthContainer} = globalStyles;
 
 import { connect } from 'react-redux'
-import createUser from '../../../redux/actions/session/CreateUser';
+import createUser from '../../../redux/actions/session/createUser';
 
 const SignUpForm = ({session, createUser}) => {
 
@@ -183,8 +183,8 @@ const SignUpForm = ({session, createUser}) => {
             let calculatedFeet = Math.floor(heightInInches / 12);
             let calculatedInches = heightInInches % 12;
             return {
-                feet: calculatedFeet,
-                inches: calculatedInches
+                feet: calculatedFeet.toString(),
+                inches: calculatedInches.toString()
             }
         } else {
             return {
@@ -398,7 +398,18 @@ const SignUpForm = ({session, createUser}) => {
     const handleSignUpPress = () => {
         validateForm();
         if (formErrors.length === 0) {
-            // submit info to backend
+            let newUserInfo = {
+                firstName: firstName,
+                lastName: lastName,
+                password: password,
+                email: isPhoneNumber === true ? '' : emailPhone,
+                phoneNumber: isPhoneNumber === true ? emailPhone : '',
+                feet: measurementSystem === 'metric' ? convertToImperial().feet : feet,
+                inches: measurementSystem === 'metric' ? convertToImperial().inches : inches,
+                weight: measurementSystem === 'metric' ? convertKGToPounds().toString() : weight,
+                age: age
+            }
+            createUser(newUserInfo)
         } else {
             displayErrors()
         }

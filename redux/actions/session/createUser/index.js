@@ -13,12 +13,13 @@ const createUser = (newUserInfo) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(configuredUserInfo)
+            body: JSON.stringify({user_info: {...configuredUserInfo}})
         }
         fetch(configuredUrl, options)
             .then(res => res.json())
             .then(data => {
                 let { errorHash } = data;
+                console.log(data);
                 let { hasError } = errorHash;
                 if (hasError === true) {
                     let {message} = errorHash;

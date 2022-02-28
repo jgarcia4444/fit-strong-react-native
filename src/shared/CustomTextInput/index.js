@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react';
-import { View, TextInput, StyleSheet, Text, Animated, Dimensions } from 'react-native';
+import { View, TextInput, StyleSheet, Text, Animated, Dimensions, Platform } from 'react-native';
 
 import globalStyles from '../../../styles/globalStyles';
 const {fullWidthContainer} = globalStyles;
@@ -16,7 +16,6 @@ const CustomTextInput = ({inputType, inputValue, valueChange, placeholder, error
     const [inputIconName, setInputIconName] = useState('');
 
     const iconOpacity = useRef(new Animated.Value(0)).current;
-    const borderWidthVal = useRef(new Animated.Value(0)).current;
 
     const configureInputIcon = () => {
         if (inputType === 'userInfo') {
@@ -48,31 +47,19 @@ const CustomTextInput = ({inputType, inputValue, valueChange, placeholder, error
 
     useEffect(() => {
         configureInputIcon();
-        if (error !== '' && error !== undefined) {
-            fadeBorderIn();
-        }
-    },[inputType, error])
+    },[inputType])
 
-    const fadeBorderIn = () => {
-        Animated.timing(borderWidthVal, {
-            toValue: 2,
-            duration: 150,
-            useNativeDriver: true
-        }).start();
-    }
 
     return (
-        // <TouchableHighlight>
         <View style={[fullWidthContainer]}>
             <FormError error={error} />
-            <Animated.View style={[fullWidthContainer, styles.inputRow, {borderWidth: borderWidthVal, borderColor: red}]}>
+            <Animated.View style={[fullWidthContainer, styles.inputRow,]}>
                 <Animated.View style={{opacity: iconOpacity}}>
                     <Feather name={inputIconName} size={24} color="black" />
                 </Animated.View>
                 <TextInput placeholder={placeholder} style={styles.inputStyle} value={inputValue} onChangeText={valueChange} />
             </Animated.View>
         </View>
-        // </TouchableHighlight>
     )
 
 }
