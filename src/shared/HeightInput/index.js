@@ -8,7 +8,7 @@ import globalStyles from '../../../styles/globalStyles';
 import CustomTextInput from '../CustomTextInput';
 const {fullWidthContainer} = globalStyles;
 
-const HeightInput = ({setMeasurementSystem, measurementSystem="imperial", setFeet, setInches, setCentimeters, feet, inches, centimeters}) => {
+const HeightInput = ({error, setMeasurementSystem, measurementSystem="imperial", setFeet, setInches, setCentimeters, feet, inches, centimeters}) => {
 
     const renderByMeasurementType = () => {
         return measurementSystem === 'imperial' ? imperialInput() : metricInput()
@@ -18,10 +18,10 @@ const HeightInput = ({setMeasurementSystem, measurementSystem="imperial", setFee
         return (
             <View style={[fullWidthContainer, styles.imperialInputContainer]}>
                 <View style={styles.feetContainer}>
-                    <CustomTextInput placeholder={'Feet'} inputType={'userInfo'} inputValue={feet} valueChange={setFeet} />
+                    <CustomTextInput error={measurementSystem === 'imperial' ? error.feet : ''} placeholder={'Feet'} inputType={'userInfo'} inputValue={feet} valueChange={setFeet} />
                 </View>
                 <View style={styles.inchesContainer}>
-                    <CustomTextInput placeholder={'Inches'} inputType={'userInfo'} inputValue={inches} valueChange={setInches} />
+                    <CustomTextInput error={measurementSystem === 'imperial' ? error.inches : ''} placeholder={'Inches'} inputType={'userInfo'} inputValue={inches} valueChange={setInches} />
                 </View>
             </View>
         )
@@ -30,7 +30,7 @@ const HeightInput = ({setMeasurementSystem, measurementSystem="imperial", setFee
     const metricInput = () => {
         return (
             <View style={[fullWidthContainer,]}>
-                <CustomTextInput placeholder={"Centimeters"} inputValue={centimeters} valueChange={setCentimeters} inputType={'userInfo'} />
+                <CustomTextInput error={measurementSystem === 'metric' ? error.centimeters : ''} placeholder={"Centimeters"} inputValue={centimeters} valueChange={setCentimeters} inputType={'userInfo'} />
             </View>
         )
     }

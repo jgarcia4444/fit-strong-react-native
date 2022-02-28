@@ -431,6 +431,17 @@ const SignUpForm = ({session, createUser}) => {
         });
     }
 
+    const configureErrors = () => {
+        return measurementSystem === 'metric' ? 
+        {
+            centimeters: formErrorsToDisplay.centimeters
+        } : 
+        {
+            feet: formErrorsToDisplay.feet,
+            inches: formErrorsToDisplay.inches
+        }
+    }
+
 
     return (
         <View style={[fullWidthContainer, styles.signUpContainer]}>
@@ -453,7 +464,7 @@ const SignUpForm = ({session, createUser}) => {
                     containerStyle={{alignItems: 'flex-start'}}
                 />
                 <CustomTextInput error={formErrorsToDisplay.age} inputValue={age} inputType={'userInfo'} placeholder={'Age'} valueChange={handleAgeChange}/>
-                <HeightInput error={measurementSystem} setMeasurementSystem={handleMeasurmentSystemChange} measurementSystem={measurementSystem} centimeters={centimeters} setCentimeters={(newText) => setCentimeters(newText)} setInches={(newText) => setInches(newText)} inches={inches} feet={feet} setFeet={(newText) => setFeet(newText)} />
+                <HeightInput error={configureErrors()} setMeasurementSystem={handleMeasurmentSystemChange} measurementSystem={measurementSystem} centimeters={centimeters} setCentimeters={(newText) => setCentimeters(newText)} setInches={(newText) => setInches(newText)} inches={inches} feet={feet} setFeet={(newText) => setFeet(newText)} />
                 <CustomTextInput placeholder={'Weight'} inputType={'userInfo'} inputValue={weight} valueChange={setWeight} />
             </ScrollView>
             <AuthButton handlePress={handleSignUpPress} loggingIn={false}/>
